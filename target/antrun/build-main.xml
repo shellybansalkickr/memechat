@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <copy todir="C:\Users\kushagr_2\Documents\kickr_meme\memechat\target/classes/public">
+    <fileset dir="C:\Users\kushagr_2\Documents\kickr_meme\memechat/meme/build"/>
+  </copy>
+</target>
+</project>
