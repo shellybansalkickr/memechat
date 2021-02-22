@@ -1,5 +1,6 @@
 package com.kickr.memechat.offers.controller;
 
+import com.kickr.memechat.offers.entity.Offers;
 import com.kickr.memechat.offers.service.OffrService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,8 +19,8 @@ public class OffersController {
     private OffrService offrService;
 
     private static final Logger logger = LoggerFactory.getLogger(OffersController.class);
-    @GetMapping(value="/api/rechargeOffers")
-    public ResponseEntity<Map<Integer,Double>> getCurrentOffers(){
+    @GetMapping(value="/api/fetchRechargeOffers")
+    public ResponseEntity<List<Offers>> getCurrentOffers(){
         try{
             return  new ResponseEntity<>(offrService.getCurrentOffers(), HttpStatus.OK);
         }

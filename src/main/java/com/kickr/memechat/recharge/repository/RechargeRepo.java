@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface RechargeRepo extends JpaRepository<RechargeParams,String> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE RechargeParams u SET u.status = ?2 , u.payUMoneyString = ?3 WHERE u.txnId = ?1")
-    public void setStatusByPayU(String txnid, String transactionStatus,String payUString);
+    @Query("UPDATE RechargeParams u SET u.status = ?2 , u.payUMoneyString = ?3 ,u.txnTime = ?4 WHERE u.txnId = ?1")
+    public void setStatusByPayU(String txnid, String transactionStatus, String payUString,  Date timestamp);
 }

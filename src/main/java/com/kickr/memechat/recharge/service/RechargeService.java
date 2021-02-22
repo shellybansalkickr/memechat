@@ -28,12 +28,12 @@ public class RechargeService {
         return newMap;
     }
 
-    public void setStatusByPayU(JsonNode jsonNode){
-        if(jsonNode.get("txnid")==null){
-            return;
-        }
-
-        rechargeRepo.setStatusByPayU(jsonNode.get("txnid").asText(),jsonNode.get("txnStatus").asText(),jsonNode.toString());
+    public void setStatusByPayU(JsonNode jsonNode,JsonNode txnid){
+            if(jsonNode.get("txnStatus")!=null && jsonNode.get("txnStatus").asText().equals("CANCEL")){
+                rechargeRepo.setStatusByPayU(txnid.asText(),jsonNode.get("txnStatus").asText(),jsonNode.toString(),new Timestamp(System.currentTimeMillis()));
+                return;
+            }
+        rechargeRepo.setStatusByPayU(txnid.asText(),jsonNode.get("txnStatus").asText(),jsonNode.toString(),new Timestamp(System.currentTimeMillis()));
 
     }
 

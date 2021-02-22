@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.ObjectName;
 import java.util.Map;
 
 
@@ -45,16 +46,13 @@ public class RechargeController {
     }
 
     @PostMapping("/api/setStatus")
-    public ResponseEntity<String> setStatusOfPayU(@RequestBody String payMoneyResponse ){
-        if(payMoneyResponse.isEmpty()){
-
+    public ResponseEntity<String> setStatusOfPayU(@RequestBody JsonNode payMoneyResponse ){
+        if(payMoneyResponse.isEmpty()||payMoneyResponse.get("response").isEmpty()){
             throw  new NullPointerException();
         }
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-             JsonNode jsonNode = objectMapper.readTree(payMoneyResponse).get("response");
 
-            rechargeService.setStatusByPayU(jsonNode);
+        try{
+            rechargeService.setStatusByPayU(payMoneyResponse.get("response").get("response"),payMoneyResponse.get("txnid"));
             return  new ResponseEntity("status set",HttpStatus.OK);
         }
         catch (Exception e){

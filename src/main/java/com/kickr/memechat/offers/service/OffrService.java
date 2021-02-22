@@ -20,19 +20,18 @@ public class OffrService {
     @Autowired
     OffersRepo offersRepo;
 
-    public Map<Integer, Double> getCurrentOffers() throws Exception {
+    public List<Offers> getCurrentOffers() throws Exception {
         //fetching offers
         List<Offers> offersList = offersRepo.findAll();
         if (offersList == null || offersList.isEmpty()) {
             throw  new NullPointerException("offer list returns null");
         }
         Double dollarToInr = getDollarToRupees();
-        Map<Integer, Double> offerMap = new HashMap<>();
         for (Offers offer : offersList
         ) {
-            offerMap.put(offer.getCoinValue(), new Double(offer.getDollarValue() * dollarToInr));
+            /*offersList.get(offer.getCoinValue(), new Double(offer.getDollarValue() * dollarToInr));*/
         }
-        return offerMap;
+        return offersList;
 
 
     }
