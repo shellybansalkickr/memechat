@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class RechargeService {
@@ -17,14 +18,9 @@ public class RechargeService {
     private RechargeRepo rechargeRepo;
 
     public Map<String, String> createHash(RechargeParams rechargeParams) throws Exception {
-        if (rechargeParams.equals(null)) {
-            throw  new NullPointerException("rechargeParams empty");
-        }
         JavaIntegrationPayU javaIntegrationPayU = new JavaIntegrationPayU();
         Map<String, String> newMap = javaIntegrationPayU.hashCalMethod(rechargeParams);
-        rechargeParams.setStatus("REDIRECTED");
-        rechargeParams.setTxnTime(new Timestamp(System.currentTimeMillis()));
-        rechargeRepo.save(rechargeParams);
+        saveTransaction(rechargeParams,"REDIRECTED");
         return newMap;
     }
 
@@ -34,6 +30,20 @@ public class RechargeService {
                 return;
             }
         rechargeRepo.setStatusByPayU(txnid.asText(),jsonNode.get("txnStatus").asText(),jsonNode.toString(),new Timestamp(System.currentTimeMillis()));
+
+    }
+
+    public String createTxnId(){
+        Random rand = new Random();
+        String rndm = Integer.toString(rand.nextInt()& Integer.MAX_VALUE) + (System.currentTimeMillis() / 1000L);
+        return  rndm;
+
+    }
+
+    public void saveTransaction(RechargeParams rechargeParams,String status){
+        rechargeParams.setStatus(status);
+        rechargeParams.setTxnTime(new Timestamp(System.currentTimeMillis()));
+        rechargeRepo.save(rechargeParams);
 
     }
 

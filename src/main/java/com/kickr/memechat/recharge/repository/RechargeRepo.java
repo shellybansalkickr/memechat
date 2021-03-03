@@ -20,4 +20,7 @@ public interface RechargeRepo extends JpaRepository<RechargeParams,String> {
     @Transactional
     @Query("UPDATE RechargeParams u SET u.status = ?2 , u.payUMoneyString = ?3 ,u.txnTime = ?4 WHERE u.txnId = ?1")
     public void setStatusByPayU(String txnid, String transactionStatus, String payUString,  Date timestamp);
+
+    @Query("SELECT u FROM RechargeParams u WHERE u.payUMoneyString =?1 ")
+    public List<RechargeParams> findByCodaTxnId(String txnId);
 }

@@ -22,9 +22,17 @@ public class RechargeParams implements Serializable {
     private Float amount;
     private Integer coins;
     private String status;
-
     @Column(columnDefinition = "LONGTEXT")
     private String payUMoneyString;
+    private String countryName;
+    @Column(columnDefinition = "LONGTEXT")
+    private String codaPayString;
+    @Enumerated(EnumType.STRING)
+    private PaymentVia paymentVia;
+    public static enum PaymentVia {
+        PAYU,CODA;
+    }
+
 
     public String getPayUMoneyString() {
         return payUMoneyString;
@@ -40,7 +48,7 @@ public class RechargeParams implements Serializable {
 
     }
 
-    public RechargeParams(String firstName, String lastName, String emailId, String number, String memeId, Float amount, Integer coins) {
+    public RechargeParams(String firstName, String lastName, String emailId, String number, String memeId, Float amount, Integer coins,String countryName,PaymentVia paymentVia ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
@@ -48,6 +56,8 @@ public class RechargeParams implements Serializable {
         this.memeId = memeId;
         this.amount = amount;
         this.coins = coins;
+        this.countryName=countryName;
+        this.paymentVia=paymentVia;
     }
 
     public String getStatus() {
@@ -128,5 +138,29 @@ public class RechargeParams implements Serializable {
 
     public void setTxnTime(Timestamp txnTime) {
         this.txnTime = txnTime;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getCodaPayString() {
+        return codaPayString;
+    }
+
+    public void setCodaPayString(String codaPayString) {
+        this.codaPayString = codaPayString;
+    }
+
+    public PaymentVia getPaymentVia() {
+        return paymentVia;
+    }
+
+    public void setPaymentVia(PaymentVia paymentVia) {
+        this.paymentVia = paymentVia;
     }
 }
